@@ -8,10 +8,19 @@ export interface CharacterInterface {
   imageUrl: string;
 }
 
-const Container = styled.main``;
+const Container = styled.main`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 const CharactersList = styled.ul`
-  display: flex;
+  display: grid;
+  padding: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 `;
 
 export const Characters = () => {
