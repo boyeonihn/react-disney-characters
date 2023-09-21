@@ -6,6 +6,8 @@ export interface CharacterInterface {
   id: number;
   name: string;
   imageUrl: string;
+  sourceUrl?: string;
+  films?: string[];
 }
 
 const Container = styled.main`
