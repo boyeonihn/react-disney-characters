@@ -3,13 +3,18 @@ import styled from 'styled-components';
 import { CharacterInterface } from '../routes';
 
 const AvatarContainer = styled.div`
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 20px;
-  border: 1px solid gold;
-  background-color: gold;
+  &:hover {
+    background-color: #4a69bd;
+    img {
+      height: 180px;
+      width: 180px;
+    }
+  }
 `;
 
 export const AvatarPic = styled.img`
@@ -18,10 +23,14 @@ export const AvatarPic = styled.img`
   width: 150px;
   height: 150px;
   vertical-align: middle;
+  transition: all 0.1s ease-in;
 `;
 
 const AvatarName = styled.h3`
-  color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.theme.textColor};
+  margin-top: 10px;
+  font-size: 1.25rem;
+  font-weight: normal;
 `;
 
 export default function Avatar({ id, name, imageUrl }: CharacterInterface) {
