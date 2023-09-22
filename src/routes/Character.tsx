@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-import { useLocation, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useLocation, useParams, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { CharacterInterface } from '.';
 import { Header } from '../components';
 import { AvatarPic } from '../components/Avatar';
@@ -13,8 +12,12 @@ const Container = styled.main`
 
 export const Character = () => {
   const { id } = useParams();
-  const [character, setCharacter] = useState<CharacterInterface>();
-  const [loading, setLoading] = useState(true);
+  const { isLoading, data } = useQuery<CharacterInterface>(
+    ['characterId', id],
+    () => {
+      return fetchCharacter(id!);
+    }
+  );
 
   const {
     state: { name },
@@ -38,12 +41,11 @@ export const Character = () => {
 
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         'LOADING... '
       ) : (
         <Container>
-          <Header title={name || 'loading...'} />
-          <AvatarPic src={character?.imageUrl} />
+          <Header title={name ? name : isLoading ? 'Loading...' : data?.name} />
         </Container>
       )}
     </div>
