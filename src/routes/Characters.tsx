@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchCharacters } from '../api';
 import { Header, Avatar } from '../components';
+import { Container, CharactersList } from '../styles';
 
 export interface CharacterInterface {
   id: number;
@@ -20,16 +21,18 @@ export const Characters = () => {
     <Container>
       <Header title={'Disney Characters'} />
       <CharactersList>
-        {loading
+        {isLoading
           ? 'still loading... '
-          : characters.map((character) => (
-              <Avatar
-                id={character.id}
-                key={character.id}
-                name={character.name}
-                imageUrl={character.imageUrl}
-              />
-            ))}
+          : data
+              ?.slice(0, 100)
+              .map((character) => (
+                <Avatar
+                  id={character.id}
+                  key={character.id}
+                  name={character.name}
+                  imageUrl={character.imageUrl}
+                />
+              ))}
       </CharactersList>
     </Container>
   );

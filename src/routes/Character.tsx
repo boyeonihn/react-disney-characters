@@ -1,14 +1,17 @@
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CharacterInterface } from '.';
-import { Header } from '../components';
-import { AvatarPic } from '../components/Avatar';
-
-const Container = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
+import { Header, AvatarPic } from '../components';
+import {
+  Subheading,
+  Container,
+  Button,
+  ButtonWrapper,
+  CharacterWrapper,
+  MoviesList,
+  MovieList,
+} from '../styles';
+import { fetchCharacter } from '../api';
 
 export const Character = () => {
   const { id } = useParams();
@@ -23,22 +26,6 @@ export const Character = () => {
     state: { name },
   } = useLocation();
 
-  console.log('### location', { location });
-
-  const loadCharacter = async () => {
-    const res = await fetch(
-      `https://disney_api.nomadcoders.workers.dev/characters/${id}`
-    );
-    const json = await res.json();
-    console.log('#### json', { json });
-    setCharacter(json);
-  };
-
-  useEffect(() => {
-    loadCharacter();
-    setLoading(false);
-  }, []);
-
   return (
     <div>
       {isLoading ? (
@@ -46,6 +33,23 @@ export const Character = () => {
       ) : (
         <Container>
           <Header title={name ? name : isLoading ? 'Loading...' : data?.name} />
+          <ButtonWrapper>
+            <Button>
+              <Link to="/"> &larr; Back home! </Link>
+            </Button>
+            <Button>
+              <a href={data?.sourceUrl}>More info</a>
+            </Button>
+          </ButtonWrapper>
+          <CharacterWrapper>
+            <AvatarPic src={data?.imageUrl} />
+            <Subheading>Appearances in:</Subheading>
+            <MoviesList>
+              {data?.films?.map((film) => (
+                <MovieList key={film}>#{film}</MovieList>
+              ))}
+            </MoviesList>
+          </CharacterWrapper>
         </Container>
       )}
     </div>
